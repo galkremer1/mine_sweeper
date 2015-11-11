@@ -8,6 +8,9 @@ table tr:last-child td {
     border-bottom: 1px;
 }
 
+.board{
+
+}
 .btn {
     background: #3498db ;
     border-radius: 8px;

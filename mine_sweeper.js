@@ -43,7 +43,7 @@ function createBoard() {
     for (var i=0; i<gRawSize; i++) {
         gBoard[i] = [];
         for (var j=0; j<gColSize; j++) {
-            gBoard[i][j] = {isMine: minesArray[counter], symbole: ''};
+            gBoard[i][j] = {isMine: minesArray[counter], symbole: '', backgroundColor:'white'};
             counter++;
         }
     }
@@ -58,11 +58,31 @@ function drawBoard(){
         var row = board.insertRow(0);
         for (var j = gColSize-1; j >=0; j--) {
             cell = row.insertCell(0);
-            cell.innerHTML +='<button id="btn"' +' oncontextmenu="elementClicked(' + i +',' +j+')"'+' onclick="elementClicked(' + i +',' +j+')">' + gBoard[i][j].symbole +' </button>';
+            cell.innerHTML +='<button id="btn"' +' oncontextmenu="elementClicked(' + i +',' +j+')" '+' onclick="elementClicked(' + i +',' +j+')">' + gBoard[i][j].symbole +' </button>';
+            cell.style.background = gBoard[i][j].backgroundColor;
         }
         board.innerHTML += "<BR>";
 
     }
+}
+
+function checkNeighbours(i,j) { //returns how many mines are next to the selected cell
+    var surrMines = 0;
+    for (var ii=-1; ii<=1; ii++) {
+        for (var jj=-1; jj<=1; jj++) {
+
+            var currI = i + ii;
+            var currJ = j + jj;
+
+            if (ii === 0 && jj === 0) continue;
+            if (currI < 0 || currI >= gBoard.length) continue;
+            if (currJ < 0 || currJ >= gBoard[0].length) continue;
+            if (gBoard[currI][currJ].isMine === 1) {
+                surrMines++;
+            }
+        }
+    }
+    return surrMines;
 }
 
 function elementClicked(i,j) {
@@ -70,6 +90,10 @@ function elementClicked(i,j) {
         if (gBoard[i][j].isMine === 1) {
             alert('bomb!!');
             gBoard[i][j].symbole='X';
+            gBoard[i][j].backgroundColor='blue';
+        }
+        else {
+            gBoard[i][j].symbole = checkNeighbours(i,j);
         }
     }
     else { //right click
