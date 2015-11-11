@@ -4,12 +4,11 @@
 
 //Global variables for the game
 var gFlags = 0; //How many flags have been currently marked in the game
-var gRemaining = 0; //Unexposed squares in the game
-var gMinesRemaining=0;
 var gBoard = [];
-var gRawSize =9;
-var gColSize = 9;
-var gNumMines= 10;
+var gRowSize =0;
+var gColSize =0;
+var gNumMines=0;
+var gIsGameOn = true;
 ////////////////////////////////////////////////////
 
 
@@ -22,7 +21,7 @@ function createMinesArray() {
     }
     var arr = [];
     var numMinesPushed = 0;
-    var size = gRawSize*gColSize;
+    var size = gRowSize*gColSize;
     for (var i=0; i<size; i++) {
         if (numMinesPushed<gNumMines) {
             arr.push(1);
@@ -38,12 +37,13 @@ function createMinesArray() {
 
 
 function createBoard() {
+    gBoard = [];
     var minesArray = createMinesArray();
     var counter = 0;
-    for (var i=0; i<gRawSize; i++) {
+    for (var i=0; i<gRowSize; i++) {
         gBoard[i] = [];
         for (var j=0; j<gColSize; j++) {
-            gBoard[i][j] = {isMine: minesArray[counter], symbole: '', backgroundColor:'white'};
+            gBoard[i][j] = {isMine: minesArray[counter], symbole: ' ', backgroundColor:'white', alreadyChecked: false, minesNeighbours: 0, isFlagged: false};
             counter++;
         }
     }
@@ -54,7 +54,7 @@ function createBoard() {
 function drawBoard(){
     var board = document.querySelector(".board");
     board.innerHTML='';
-    for (var i=gRawSize-1; i>=0; i--) {
+    for (var i=gRowSize-1; i>=0; i--) {
         var row = board.insertRow(0);
         for (var j = gColSize-1; j >=0; j--) {
             cell = row.insertCell(0);
@@ -62,50 +62,113 @@ function drawBoard(){
             cell.style.background = gBoard[i][j].backgroundColor;
         }
         board.innerHTML += "<BR>";
+    }
 
+}
+
+
+function updateNeighbours() {
+    for (var i=0; i<gRowSize; i++) {
+        for (var j = 0; j < gColSize; j++) {
+            var surrMines=0;
+            for (var ii = -1; ii <= 1; ii++) {
+                for (var jj = -1; jj <= 1; jj++) {
+                    var currI = i + ii;
+                    var currJ = j + jj;
+                    if (ii === 0 && jj === 0) continue;
+                    if (currI < 0 || currI > gColSize - 1) continue;
+                    if (currJ < 0 || currJ > gRowSize - 1) continue;
+                    if (gBoard[currI][currJ].isMine === 1) {
+                        surrMines++;
+                    }
+                }
+            }
+            gBoard[i][j].minesNeighbours = surrMines;
+        }
     }
 }
 
-function checkNeighbours(i,j) { //returns how many mines are next to the selected cell
-    var surrMines = 0;
-    for (var ii=-1; ii<=1; ii++) {
-        for (var jj=-1; jj<=1; jj++) {
-
-            var currI = i + ii;
-            var currJ = j + jj;
-
-            if (ii === 0 && jj === 0) continue;
-            if (currI < 0 || currI >= gBoard.length) continue;
-            if (currJ < 0 || currJ >= gBoard[0].length) continue;
-            if (gBoard[currI][currJ].isMine === 1) {
-                surrMines++;
+function updateBoard() {
+    for (var i = 0; i < gRowSize; i++) {
+        for (var j = 0; j < gColSize; j++) {
+            for (var ii = -1; ii <= 1; ii++) {
+                for (var jj = -1; jj <= 1; jj++) {
+                    var currI = i + ii;
+                    var currJ = j + jj;
+                  //  if (ii === 0 && jj === 0) continue;
+                    if (currI < 0 || currI > gColSize - 1) continue;
+                    if (currJ < 0 || currJ > gRowSize - 1) continue;
+                    if (gBoard[i][j].symbole === 0) {
+                        gBoard[currI][currJ].symbole = gBoard[currI][currJ].minesNeighbours;
+                    }
+                }
             }
         }
     }
-    return surrMines;
+}
+
+function gameOver() {
+    showMines();
+    alert('Game over!');
+    gIsGameOn = false;
+}
+
+function showMines(){
+    for (var i = 0; i < gRowSize; i++) {
+        for (var j = 0; j < gColSize; j++) {
+            if (gBoard[i][j].isMine) {
+                gBoard[i][j].symbole = 'X';
+                gBoard[i][j].backgroundColor='blue';
+            }
+        }
+    }
 }
 
 function elementClicked(i,j) {
-    if (event.button === 0) { //Left click
-        if (gBoard[i][j].isMine === 1) {
-            alert('bomb!!');
-            gBoard[i][j].symbole='X';
-            gBoard[i][j].backgroundColor='blue';
+    if (gIsGameOn) {
+        if (event.button === 0) { //Left click
+            if (gBoard[i][j].isMine === 1) {
+                gameOver();
+            }
+            else {
+                gBoard[i][j].symbole = gBoard[i][j].minesNeighbours;
+                updateBoard();
+                drawBoard();
+            }
         }
-        else {
-            gBoard[i][j].symbole = checkNeighbours(i,j);
+        else { //right click
+            alert(event.button);
+            event.preventDefault();
         }
+        console.log(i,j);
+        drawBoard();
     }
-    else { //right click
-        alert(event.button);
-        event.preventDefault();
+}
+
+function newGame() {
+    var level = document.querySelector(".level").value;
+    switch (level) {
+        case "Beginner":
+            gRowSize = 9;
+            gColSize = 9;
+            gNumMines = 10;
+            break;
+        case "Intermediate":
+            gRowSize = 16;
+            gColSize = 16;
+            gNumMines = 40;
+            break;
+        case "Expert":
+            gRowSize = 16;
+            gColSize = 30;
+            gNumMines = 99;
+            break;
     }
-    console.log(i,j);
-    drawBoard();
+    gIsGameOn = true;
+    createBoard();
+    updateNeighbours();
+    drawBoard()
+
 }
 
 
-//console.log(createMinesArray(9,9,10));
-//drawBoard(9,9,10);
-createBoard();
-drawBoard();
