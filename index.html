@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<script src="mine_sweeper.js"></script>
 <html lang="en">
 <head>
     <link rel="stylesheet" href="mine_sweeper.css"/>
@@ -7,6 +6,27 @@
     <title>Title</title>
 </head>
 <body>
+<div id="game" class="minesweeper">
+    <div>
+        <h2>
+            <span>Your time:</span>
+            <span class="timer">0</span>
+        </h2>
+    </div>
+    <div>
+        <span>Level:</span>
+        <select class="level">
+            <option value="easy">Easy</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+        </select>
+        <button class="newGame" type="button">New game</button>
+    </div>
+</div>
+<table class="board"></table>
+<script src="mine_sweeper.js"></script>
 
 </body>
+
 </html>

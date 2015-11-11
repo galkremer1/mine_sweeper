@@ -1,0 +1,25 @@
+table td, table th {
+    border: 1px solid black;
+}
+table tr:first-child th {
+    border-top: 1px;
+}
+table tr:last-child td {
+    border-bottom: 1px;
+}
+
+.btn {
+    background: #3498db ;
+    border-radius: 8px;
+    font-family: Arial;
+    color: #ffffff ;
+    font-size: 20px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background: #3cb0fd ;
+    text-decoration: none;
+    cursor: pointer;
+}
