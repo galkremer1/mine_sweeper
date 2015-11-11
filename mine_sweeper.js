@@ -43,7 +43,7 @@ function createBoard() {
     for (var i=0; i<gRowSize; i++) {
         gBoard[i] = [];
         for (var j=0; j<gColSize; j++) {
-            gBoard[i][j] = {isMine: minesArray[counter], symbole: ' ', backgroundColor:'white', alreadyChecked: false, minesNeighbours: 0, isFlagged: false};
+            gBoard[i][j] = {isMine: minesArray[counter], symbole: ' ', backgroundColor:'white', alreadyChecked: false, minesNeighbours: 0, isFlagged: false, isClicked: false};
             counter++;
         }
     }
@@ -66,6 +66,9 @@ function drawBoard(){
 
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////Unify these two functions///////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function updateNeighbours() {
     for (var i=0; i<gRowSize; i++) {
@@ -89,8 +92,12 @@ function updateNeighbours() {
 }
 
 function updateBoard() {
+    var flagged=0;
+    var clicked=0
     for (var i = 0; i < gRowSize; i++) {
         for (var j = 0; j < gColSize; j++) {
+            if (gBoard[i][j].isClicked) clicked++;
+            if (gBoard[i][j].isFlagged) flagged++;
             for (var ii = -1; ii <= 1; ii++) {
                 for (var jj = -1; jj <= 1; jj++) {
                     var currI = i + ii;
@@ -99,13 +106,24 @@ function updateBoard() {
                     if (currI < 0 || currI > gColSize - 1) continue;
                     if (currJ < 0 || currJ > gRowSize - 1) continue;
                     if (gBoard[i][j].symbole === 0) {
-                        gBoard[currI][currJ].symbole = gBoard[currI][currJ].minesNeighbours;
+                        if (!gBoard[currI][currJ].isFlagged) {
+                            gBoard[currI][currJ].symbole = gBoard[currI][currJ].minesNeighbours;
+                            gBoard[currI][currJ].isClicked = true;
+
+                        }
                     }
                 }
             }
         }
     }
+    console.log('Flagged: ' + flagged);
+    console.log('Clicked: ' + clicked);
+    if ((flagged+clicked) === gRowSize*gColSize){
+        gIsGameOn = false;
+        alert('Congratulation! You have won the game!');
+    }
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function gameOver() {
     showMines();
@@ -119,7 +137,10 @@ function showMines(){
             if (gBoard[i][j].isMine) {
                 gBoard[i][j].symbole = 'X';
                 gBoard[i][j].backgroundColor='blue';
+                if (gBoard[i][j].isFlagged) gBoard[i][j].backgroundColor='green'
             }
+            else if (gBoard[i][j].isFlagged) gBoard[i][j].backgroundColor='red';
+
         }
     }
 }
@@ -132,16 +153,31 @@ function elementClicked(i,j) {
             }
             else {
                 gBoard[i][j].symbole = gBoard[i][j].minesNeighbours;
+                gBoard[i][j].isClicked = true;
+                gBoard[i][j].isFlagged=false;
                 updateBoard();
                 drawBoard();
             }
         }
         else { //right click
-            alert(event.button);
+            if (gBoard[i][j].symbole === ' ') {
+                gBoard[i][j].symbole = '!';
+                gBoard[i][j].isFlagged=true;
+            }
+            else if (gBoard[i][j].symbole === '!') {
+                gBoard[i][j].symbole = ' ';
+                gBoard[i][j].isFlagged=false;
+            }
             event.preventDefault();
         }
         console.log(i,j);
-        drawBoard();
+        if (gIsGameOn) { /// Need to fix!
+            updateBoard();
+            updateBoard();
+            updateBoard();
+            drawBoard()
+        }
+
     }
 }
 
@@ -149,9 +185,9 @@ function newGame() {
     var level = document.querySelector(".level").value;
     switch (level) {
         case "Beginner":
-            gRowSize = 9;
-            gColSize = 9;
-            gNumMines = 10;
+            gRowSize = 4;
+            gColSize = 4;
+            gNumMines = 2;
             break;
         case "Intermediate":
             gRowSize = 16;
@@ -168,7 +204,6 @@ function newGame() {
     createBoard();
     updateNeighbours();
     drawBoard()
-
 }
 
 
