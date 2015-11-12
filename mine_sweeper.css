@@ -54,3 +54,8 @@ body {
     background: lightblue;
     padding-left: 30%;
 }
+
+.footer {
+    background: red;
+    padding-left: 35%;
+}

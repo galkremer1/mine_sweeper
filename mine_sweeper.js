@@ -125,9 +125,10 @@ function updateBoard() {
     }
     console.log('Flagged: ' + flagged);
     console.log('Clicked: ' + clicked);
-    if ((flagged+clicked) === gRowSize*gColSize){
+    if (((flagged+clicked) === gRowSize*gColSize) && gIsGameOn ){
         gIsGameOn = false;
         gTimer = false;
+        drawBoard();
         alert('Congratulation! You have won the game!');
     }
 }
@@ -216,7 +217,7 @@ function elementClicked(i,j) {
         }
         console.log(i,j);
         console.log(gIsGameOn);
-        if (gIsGameOn && gTimer) { /// Need to fix!
+        if (gIsGameOn) { /// Need to fix!
             updateBoard();
             updateBoard();
             updateBoard();
