@@ -3,7 +3,7 @@
  */
 
 //Global variables for the game
-var gFlags = 0; //How many flags have been currently marked in the game
+var gFlags = 0;
 var gBoard = [];
 var gRowSize =0;
 var gColSize =0;
@@ -188,7 +188,7 @@ function gameOver() {
     gIsGameOn = false;
     gTimer = false;
     drawBoard();
-    document.querySelector(".gameStatus").innerText = "GAME OVER!"
+    document.querySelector(".gameStatus").innerText = "GAME OVER!";
 }
 
 function flagCell (i,j) {
