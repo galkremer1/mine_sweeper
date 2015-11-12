@@ -7,12 +7,13 @@
 </head>
 <body>
 <div id="game" class="minesweeper">
-    <div>
+    <div class="gameHeader">
         <h2>
             <span class="timerHeader">Your time:</span>
-            <span class="timer">0</span>
+            <div>
+                 <span class="timer">0</span>
+            </div>
         </h2>
-    </div>
     <div>
         <span>Level:</span>
         <select class="level">
@@ -23,9 +24,11 @@
         </select>
         <button class="newGame" type="button" onclick="newGame()">New game</button>
     </div>
+        </div>
+    <table class="board"></table>
+    <script src="mine_sweeper.js"></script>
 </div>
-<table class="board"></table>
-<script src="mine_sweeper.js"></script>
+
 
 </body>
 

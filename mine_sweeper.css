@@ -1,26 +1,25 @@
+
 table td, table th {
     border: 5px solid black;
-
-}
-table tr:first-child th {
-    border-top: 5px;
-}
-table tr:last-child td {
-    border-bottom: 5px;
-
+    height: 30px;
+    width: 30px;
 }
 
+body {
+    background: lightcoral;
+}
 .board {
     padding-left: 30%;
     padding-top: 10px;
 }
 
 .timerHeader {
-    padding: 30%;
+    padding: 10%;
 }
 .timer {
-    padding: 35%;
+    padding: 15%;
 }
+
 
 .newGame {
     background: #3498db ;
@@ -43,4 +42,13 @@ table tr:last-child td {
     color: #ffffff ;
     font-size: 15px;
     height:25px;
+}
+
+.btn {
+    padding: 10px 10px 10px 10px;
+}
+
+.gameHeader {
+    background: lightblue;
+    padding-left: 30%;
 }

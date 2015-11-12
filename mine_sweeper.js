@@ -59,8 +59,10 @@ function drawBoard(){
         var row = board.insertRow(0);
         for (var j = gColSize-1; j >=0; j--) {
             cell = row.insertCell(0);
-            cell.innerHTML +='<button id="btn"' +' oncontextmenu="elementClicked(' + i +',' +j+')" '+' onclick="elementClicked(' + i +',' +j+')">' + gBoard[i][j].symbole +' </button>';
+            cell.innerHTML +='<button class="btn"' +' oncontextmenu="elementClicked(' + i +',' +j+')" '+' onclick="elementClicked(' + i +',' +j+')">' + gBoard[i][j].symbole +' </button>';
             cell.style.background = gBoard[i][j].backgroundColor;
+            //cell.style.visibility="visible";
+          //  cell.style.visibility='hidden';
         }
         board.innerHTML += "<BR>";
     }
@@ -127,6 +129,10 @@ function updateBoard() {
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+
+//////timer functions////////////////////////////////////////////////////////////////////////////
 function setElapsed() {
     // update elapsed time display
     var elt = document.querySelector(".timer");
@@ -154,6 +160,8 @@ function startTimer() {
     timerAction();
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////Game over functions//////////////////////////////////////////////////////////////////
 function gameOver() {
     showMines();
     alert('Game over!');
@@ -175,6 +183,7 @@ function showMines() {
     drawBoard();
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function elementClicked(i,j) {
     if (gIsGameOn) {
         if (!gTimer) startTimer();
@@ -203,7 +212,7 @@ function elementClicked(i,j) {
         }
         console.log(i,j);
         console.log(gIsGameOn);
-        if (gIsGameOn) { /// Need to fix!
+        if (gIsGameOn && gTimer) { /// Need to fix!
             updateBoard();
             updateBoard();
             updateBoard();
@@ -216,6 +225,8 @@ function elementClicked(i,j) {
 }
 
 function newGame() {
+    gTimer = false;
+    setElapsed();
     var lvlBtn=document.querySelector(".level");
     var level=lvlBtn.value;
     switch (level) {
