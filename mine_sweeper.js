@@ -60,9 +60,13 @@ function drawBoard(){
         for (var j = gColSize-1; j >=0; j--) {
             cell = row.insertCell(0);
             cell.innerHTML +='<button class="btn"' +' oncontextmenu="elementClicked(' + i +',' +j+')" '+' onclick="elementClicked(' + i +',' +j+')">' + gBoard[i][j].symbole +' </button>';
-            cell.style.background = gBoard[i][j].backgroundColor;
             //cell.style.visibility="visible";
           //  cell.style.visibility='hidden';
+            var button = document.querySelector(".btn");
+            button.style.backgroundColor = gBoard[i][j].backgroundColor;
+            if (gBoard[i][j].isClicked && gBoard[i][j].minesNeighbours===0) {
+                button.style.visibility='hidden';
+            }
         }
         board.innerHTML += "<BR>";
     }
