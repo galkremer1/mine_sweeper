@@ -9,6 +9,7 @@ var gRowSize =0;
 var gColSize =0;
 var gNumMines=0;
 var gIsGameOn = true;
+var gTimer = false;
 ////////////////////////////////////////////////////
 
 
@@ -43,10 +44,11 @@ function createBoard() {
     for (var i=0; i<gRowSize; i++) {
         gBoard[i] = [];
         for (var j=0; j<gColSize; j++) {
-            gBoard[i][j] = {isMine: minesArray[counter], symbole: ' ', backgroundColor:'white', alreadyChecked: false, minesNeighbours: 0, isFlagged: false, isClicked: false};
+            gBoard[i][j] = {isMine: minesArray[counter], symbole: ' ', backgroundColor:'white', minesNeighbours: 0, isFlagged: false, isClicked: false};
             counter++;
         }
     }
+    console.log(gBoard);
 }
 
 ///Drawing the board on the HTML
@@ -120,33 +122,63 @@ function updateBoard() {
     console.log('Clicked: ' + clicked);
     if ((flagged+clicked) === gRowSize*gColSize){
         gIsGameOn = false;
+        gTimer = false;
         alert('Congratulation! You have won the game!');
     }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+function setElapsed() {
+    // update elapsed time display
+    var elt = document.querySelector(".timer");
+    if (gTimer) {
+        var now = new Date();
+        var secs = Math.floor((now.getTime() - startTime.getTime())/1000);
+        elt.innerHTML = (secs > 999 ? charInfinity : "" + secs);
+    }
+    else {
+        elt.innerHTML = "&nbsp;";
+    }
+}
+
+function timerAction() {
+
+    if (gTimer) {
+        setElapsed();
+        setTimeout("timerAction()", 100);
+    }
+}
+
+function startTimer() {
+    startTime = new Date();
+    gTimer = true;
+    timerAction();
+}
+
 function gameOver() {
     showMines();
     alert('Game over!');
     gIsGameOn = false;
+    gTimer = false;
 }
 
-function showMines(){
+function showMines() {
     for (var i = 0; i < gRowSize; i++) {
         for (var j = 0; j < gColSize; j++) {
-            if (gBoard[i][j].isMine) {
+            if (gBoard[i][j].isMine === 1) {
                 gBoard[i][j].symbole = 'X';
                 gBoard[i][j].backgroundColor='blue';
                 if (gBoard[i][j].isFlagged) gBoard[i][j].backgroundColor='green'
             }
             else if (gBoard[i][j].isFlagged) gBoard[i][j].backgroundColor='red';
-
         }
     }
+    drawBoard();
 }
 
 function elementClicked(i,j) {
     if (gIsGameOn) {
+        if (!gTimer) startTimer();
         if (event.button === 0) { //Left click
             if (gBoard[i][j].isMine === 1) {
                 gameOver();
@@ -171,6 +203,7 @@ function elementClicked(i,j) {
             event.preventDefault();
         }
         console.log(i,j);
+        console.log(gIsGameOn);
         if (gIsGameOn) { /// Need to fix!
             updateBoard();
             updateBoard();
@@ -184,10 +217,15 @@ function elementClicked(i,j) {
 function newGame() {
     var level = document.querySelector(".level").value;
     switch (level) {
-        case "Beginner":
-            gRowSize = 4;
-            gColSize = 4;
+        case "Easy":
+            gRowSize = 3;
+            gColSize = 3;
             gNumMines = 2;
+            break;
+        case "Beginner":
+            gRowSize = 9;
+            gColSize = 9;
+            gNumMines = 10;
             break;
         case "Intermediate":
             gRowSize = 16;
