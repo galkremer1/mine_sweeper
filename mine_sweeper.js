@@ -89,6 +89,9 @@ function drawBoard(){
                     cell.style.background="url('img/flag.png')";
                     button.style.opacity='0';
                 }
+                else {
+                    button.disabled=true; //Dissabling all the other buttons once the game is finished
+                }
             }
         }
         board.innerHTML += "<BR>";
@@ -143,6 +146,7 @@ function updateBoard() {
         }
     }
 
+    //Checking if the game is won
     if (((flagged+clicked) === gRowSize*gColSize) && gIsGameOn && flagged===gNumMines ){
         gIsGameOn = false;
         gTimer = false;
@@ -204,29 +208,33 @@ function flagCell (i,j) {
 
         gFlags--;
     }
-    flagScore.innerText=gFlags;
+    flagScore.innerText=gNumMines-gFlags;
     event.preventDefault();
+}
+
+function handleLeftClick(i,j) {
+    if (gBoard[i][j].isMine) {
+        gameOver();
+    }
+    else {
+        gBoard[i][j].symbole = gBoard[i][j].minesNeighbours;
+        gBoard[i][j].isClicked = true;
+        if (gBoard[i][j].isFlagged) {
+            var flagScore = document.querySelector(".flagsRaised")
+            gFlags--;
+            flagScore.innerText=gNumMines-gFlags;
+        }
+        gBoard[i][j].isFlagged=false;
+        updateBoard();
+        drawBoard();
+    }
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function elementClicked(i,j) {
     if (gIsGameOn) {
         if (!gTimer) startTimer();
         if (event.button === 0) { //Left click
-            if (gBoard[i][j].isMine) {
-                gameOver();
-            }
-            else {
-                gBoard[i][j].symbole = gBoard[i][j].minesNeighbours;
-                gBoard[i][j].isClicked = true;
-                if (gBoard[i][j].isFlagged) {
-                    var flagScore = document.querySelector(".flagsRaised")
-                    gFlags--;
-                    flagScore.innerText=gFlags;
-                }
-                gBoard[i][j].isFlagged=false;
-                updateBoard();
-                drawBoard();
-            }
+            handleLeftClick(i,j);
         }
         else { //right click
             flagCell(i,j);
@@ -246,29 +254,35 @@ function elementClicked(i,j) {
 function newGame() {
     var lvlBtn=document.querySelector(".level");
     var level=lvlBtn.value;
+    var board=document.querySelector(".minesweeper");
     switch (level) {
         case "Easy":
             gRowSize = 3;
             gColSize = 3;
             gNumMines = 2;
             lvlBtn.style.background='blue';
+            board.style.width="35%";
             break;
         case "Beginner":
             gRowSize = 9;
             gColSize = 9;
             gNumMines = 10;
             lvlBtn.style.background='gray';
+            board.style.width="50%";
             break;
         case "Intermediate":
             gRowSize = 16;
             gColSize = 16;
             gNumMines = 40;
+            board.style.width="80%";
             break;
         case "Expert":
             gRowSize = 20;
             gColSize = 20;
-            gNumMines = 10;
+            gNumMines = 99;
             lvlBtn.style.background='blue';
+            board.style.width="100%";
+
             break;
     }
    gameInit();
@@ -276,7 +290,7 @@ function newGame() {
 
 function gameInit(){
     gFlags=0;
-    document.querySelector(".flagsRaised").innerText=gFlags;
+    document.querySelector(".flagsRaised").innerText=gNumMines-gFlags;
     document.querySelector(".gameStatus").innerText = '';
     gTimer = false;
     gIsGameOn = true;

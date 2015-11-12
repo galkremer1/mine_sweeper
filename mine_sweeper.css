@@ -1,3 +1,10 @@
+.minesweeper {
+
+    background: green;
+    border-style: solid;
+    width: 35%;
+    margin: auto;
+}
 
 table td, table th {
     border: 2px solid black;
@@ -9,10 +16,18 @@ body {
     background: gray;
     font-size: small;
 }
-.board {
-    padding-left: 30%;
-}
 
+.flagsRaisedHeader {
+    background: yellow;
+}
+.timerHeader {
+    background: red;
+}
+.board {
+    padding-top: 5%;
+    padding-bottom: 5%;
+    margin: auto;
+}
 
 
 .gameStatus {
