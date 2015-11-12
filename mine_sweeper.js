@@ -61,9 +61,30 @@ function drawBoard(){
             cell = row.insertCell(0);
             cell.innerHTML +='<button class="btn"' +' oncontextmenu="elementClicked(' + i +',' +j+')" '+' onclick="elementClicked(' + i +',' +j+')">' + gBoard[i][j].symbole +' </button>';
             var button = document.querySelector(".btn");
-            button.style.backgroundColor = gBoard[i][j].backgroundColor;
             if (gBoard[i][j].isClicked && gBoard[i][j].minesNeighbours===0 && !gBoard[i][j].isFlagged) {
                 button.style.visibility='hidden';
+            }
+            if (gBoard[i][j].isFlagged) {
+                cell.style.background="url('img/flag.png')";
+                button.style.opacity='0';
+            }
+            else if (gBoard[i][j].isClicked) {
+                button.style.background='white';
+            }
+
+            if (!gIsGameOn) {
+                if (gBoard[i][j].isMine===1 && !gBoard[i][j].isFlagged) {
+                    cell.style.background="url('img/mine.png')";
+                    button.style.opacity='0';
+                }
+                else if (gBoard[i][j].isMine===0 && gBoard[i][j].isFlagged) {
+                    cell.style.background="url('img/wrongmine.png')";
+                    button.style.opacity='0';
+                }
+                else if (gBoard[i][j].isMine===1) {
+                    cell.style.background="url('img/flag.png')";
+                    button.style.opacity='0';
+                }
             }
         }
         board.innerHTML += "<BR>";
@@ -98,7 +119,7 @@ function updateNeighbours() {
 
 function updateBoard() {
     var flagged=0;
-    var clicked=0
+    var clicked=0;
     for (var i = 0; i < gRowSize; i++) {
         for (var j = 0; j < gColSize; j++) {
             if (gBoard[i][j].isClicked) clicked++;
@@ -107,7 +128,6 @@ function updateBoard() {
                 for (var jj = -1; jj <= 1; jj++) {
                     var currI = i + ii;
                     var currJ = j + jj;
-                  //  if (ii === 0 && jj === 0) continue;
                     if (currI < 0 || currI > gColSize - 1) continue;
                     if (currJ < 0 || currJ > gRowSize - 1) continue;
                     if (gBoard[i][j].symbole === 0 && !gBoard[currI][currJ].isFlagged) {
@@ -160,26 +180,10 @@ function startTimer() {
     timerAction();
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////Game over functions//////////////////////////////////////////////////////////////////
 function gameOver() {
-    showMines();
-    alert('Game over!');
     gIsGameOn = false;
     gTimer = false;
-}
-
-function showMines() {
-    for (var i = 0; i < gRowSize; i++) {
-        for (var j = 0; j < gColSize; j++) {
-            if (gBoard[i][j].isMine === 1) {
-                gBoard[i][j].symbole = 'X';
-                gBoard[i][j].backgroundColor='blue';
-                if (gBoard[i][j].isFlagged) gBoard[i][j].backgroundColor='green'
-            }
-            else if (gBoard[i][j].isFlagged) gBoard[i][j].backgroundColor='red';
-        }
-    }
+    alert('Game over!');
     drawBoard();
 }
 
@@ -205,7 +209,7 @@ function elementClicked(i,j) {
     if (gIsGameOn) {
         if (!gTimer) startTimer();
         if (event.button === 0) { //Left click
-            if (gBoard[i][j].isMine === 1) {
+            if (gBoard[i][j].isMine) {
                 gameOver();
             }
             else {
@@ -233,7 +237,6 @@ function elementClicked(i,j) {
             updateBoard();
             drawBoard()
         }
-
     }
 }
 

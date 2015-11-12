@@ -1,17 +1,16 @@
 
 table td, table th {
-    border: 5px solid black;
-    height: 30px;
-    width: 30px;
+    border: 2px solid black;
+    height: 25px;
+    width: 25px;
 }
 
 body {
-    background: lightcoral;
+    background: gray;
     font-size: small;
 }
 .board {
     padding-left: 30%;
-    padding-top: 10px;
 }
 
 
@@ -41,10 +40,17 @@ body {
 }
 
 .btn {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     visibility: visible;
+    text-align: center;
+    margin: 1px 1px 1px 1px;
+    alignment: center;
+    opacity: 1;
+    background-size: 15px 15px;
+    background: url(img/hidden.png) no-repeat;
 }
+
 
 .gameHeader {
     background: lightblue;
