@@ -7,18 +7,14 @@ table td, table th {
 
 body {
     background: lightcoral;
+    font-size: small;
 }
 .board {
     padding-left: 30%;
     padding-top: 10px;
 }
 
-.timerHeader {
-    padding: 10%;
-}
-.timer {
-    padding: 15%;
-}
+
 
 
 .newGame {

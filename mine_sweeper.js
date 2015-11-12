@@ -60,11 +60,9 @@ function drawBoard(){
         for (var j = gColSize-1; j >=0; j--) {
             cell = row.insertCell(0);
             cell.innerHTML +='<button class="btn"' +' oncontextmenu="elementClicked(' + i +',' +j+')" '+' onclick="elementClicked(' + i +',' +j+')">' + gBoard[i][j].symbole +' </button>';
-            //cell.style.visibility="visible";
-          //  cell.style.visibility='hidden';
             var button = document.querySelector(".btn");
             button.style.backgroundColor = gBoard[i][j].backgroundColor;
-            if (gBoard[i][j].isClicked && gBoard[i][j].minesNeighbours===0) {
+            if (gBoard[i][j].isClicked && gBoard[i][j].minesNeighbours===0 && !gBoard[i][j].isFlagged) {
                 button.style.visibility='hidden';
             }
         }
@@ -112,12 +110,9 @@ function updateBoard() {
                   //  if (ii === 0 && jj === 0) continue;
                     if (currI < 0 || currI > gColSize - 1) continue;
                     if (currJ < 0 || currJ > gRowSize - 1) continue;
-                    if (gBoard[i][j].symbole === 0) {
-                        if (!gBoard[currI][currJ].isFlagged) {
+                    if (gBoard[i][j].symbole === 0 && !gBoard[currI][currJ].isFlagged) {
                             gBoard[currI][currJ].symbole = gBoard[currI][currJ].minesNeighbours;
                             gBoard[currI][currJ].isClicked = true;
-
-                        }
                     }
                 }
             }
@@ -125,7 +120,7 @@ function updateBoard() {
     }
     console.log('Flagged: ' + flagged);
     console.log('Clicked: ' + clicked);
-    if (((flagged+clicked) === gRowSize*gColSize) && gIsGameOn ){
+    if (((flagged+clicked) === gRowSize*gColSize) && gIsGameOn && flagged===gNumMines ){
         gIsGameOn = false;
         gTimer = false;
         drawBoard();
@@ -188,6 +183,23 @@ function showMines() {
     drawBoard();
 }
 
+function flagCell (i,j) {
+    var flagScore = document.querySelector(".flagsRaised");
+    if (gBoard[i][j].symbole === ' ') {
+        gBoard[i][j].symbole = '!';
+        gBoard[i][j].isFlagged=true;
+        gFlags++;
+    }
+    else if (gBoard[i][j].symbole === '!') {
+        gBoard[i][j].symbole = ' ';
+        gBoard[i][j].isFlagged=false;
+        gBoard[i][j].isClicked=false;
+
+        gFlags--;
+    }
+    flagScore.innerText=gFlags;
+    event.preventDefault();
+}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function elementClicked(i,j) {
     if (gIsGameOn) {
@@ -199,24 +211,20 @@ function elementClicked(i,j) {
             else {
                 gBoard[i][j].symbole = gBoard[i][j].minesNeighbours;
                 gBoard[i][j].isClicked = true;
+                if (gBoard[i][j].isFlagged) {
+                    var flagScore = document.querySelector(".flagsRaised")
+                    gFlags--;
+                    flagScore.innerText=gFlags;
+                }
                 gBoard[i][j].isFlagged=false;
                 updateBoard();
                 drawBoard();
             }
         }
         else { //right click
-            if (gBoard[i][j].symbole === ' ') {
-                gBoard[i][j].symbole = '!';
-                gBoard[i][j].isFlagged=true;
-            }
-            else if (gBoard[i][j].symbole === '!') {
-                gBoard[i][j].symbole = ' ';
-                gBoard[i][j].isFlagged=false;
-            }
-            event.preventDefault();
+            flagCell(i,j);
         }
-        console.log(i,j);
-        console.log(gIsGameOn);
+
         if (gIsGameOn) { /// Need to fix!
             updateBoard();
             updateBoard();
@@ -230,6 +238,9 @@ function elementClicked(i,j) {
 }
 
 function newGame() {
+    gFlags=0;
+    document.querySelector(".flagsRaised").innerText=gFlags;
+
     gTimer = false;
     setElapsed();
     var lvlBtn=document.querySelector(".level");
