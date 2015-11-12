@@ -1,6 +1,7 @@
 table td, table th {
-     border: 5px solid black;
- }
+    border: 5px solid black;
+
+}
 table tr:first-child th {
     border-top: 5px;
 }
@@ -9,11 +10,37 @@ table tr:last-child td {
 
 }
 
-.board{
-    border-bottom: 20px;
-    color: blue;
+.board {
+    padding-left: 30%;
+    padding-top: 10px;
 }
 
-#timer {
-    float: right;
+.timerHeader {
+    padding: 30%;
+}
+.timer {
+    padding: 35%;
+}
+
+.newGame {
+    background: #3498db ;
+    border-radius: 8px;
+    font-family: Arial;
+    color: #ffffff ;
+    font-size: 15px;
+    alignment: center;
+}
+
+.newGame:hover {
+    background: #3cb0fd ;
+    cursor: pointer;
+}
+
+.level {
+    background: green ;
+    border-radius: 8px;
+    font-family: Arial;
+    color: #ffffff ;
+    font-size: 15px;
+    height:25px;
 }

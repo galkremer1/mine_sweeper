@@ -48,7 +48,6 @@ function createBoard() {
             counter++;
         }
     }
-    console.log(gBoard);
 }
 
 ///Drawing the board on the HTML
@@ -208,6 +207,8 @@ function elementClicked(i,j) {
             updateBoard();
             updateBoard();
             updateBoard();
+            updateBoard();
+            updateBoard();
             drawBoard()
         }
 
@@ -215,17 +216,20 @@ function elementClicked(i,j) {
 }
 
 function newGame() {
-    var level = document.querySelector(".level").value;
+    var lvlBtn=document.querySelector(".level");
+    var level=lvlBtn.value;
     switch (level) {
         case "Easy":
             gRowSize = 3;
             gColSize = 3;
             gNumMines = 2;
+            lvlBtn.style.background='blue';
             break;
         case "Beginner":
             gRowSize = 9;
             gColSize = 9;
             gNumMines = 10;
+            lvlBtn.style.background='gray';
             break;
         case "Intermediate":
             gRowSize = 16;
@@ -233,9 +237,10 @@ function newGame() {
             gNumMines = 40;
             break;
         case "Expert":
-            gRowSize = 16;
-            gColSize = 30;
-            gNumMines = 99;
+            gRowSize = 20;
+            gColSize = 20;
+            gNumMines = 10;
+            lvlBtn.style.background='blue';
             break;
     }
     gIsGameOn = true;
