@@ -1,7 +1,7 @@
 /**
  * Created by galkremer on 11/11/2015.
  */
-
+"use strict";
 //Global variables for the game
 var gFlags = 0;
 var gBoard = [];
@@ -10,6 +10,7 @@ var gColSize =0;
 var gNumMines=0;
 var gIsGameOn = true;
 var gTimer = false;
+var gStartTime=0;
 ////////////////////////////////////////////////////
 
 
@@ -59,7 +60,7 @@ function drawBoard(){
     for (var i=gRowSize-1; i>=0; i--) {
         var row = board.insertRow(0);
         for (var j = gColSize-1; j >=0; j--) {
-            cell = row.insertCell(0);
+            var cell = row.insertCell(0);
             cell.innerHTML +='<button class="btn"' +' oncontextmenu="elementClicked(' + i +',' +j+')" '+' onclick="elementClicked(' + i +',' +j+')">' + gBoard[i][j].symbole +' </button>';
             var button = document.querySelector(".btn");
             if (gBoard[i][j].isClicked && gBoard[i][j].minesNeighbours===0 && !gBoard[i][j].isFlagged) {
@@ -141,8 +142,6 @@ function updateBoard() {
             }
         }
     }
-    console.log('Flagged: ' + flagged);
-    console.log('Clicked: ' + clicked);
 
     if (((flagged+clicked) === gRowSize*gColSize) && gIsGameOn && flagged===gNumMines ){
         gIsGameOn = false;
@@ -162,7 +161,7 @@ function setElapsed() {
     var elt = document.querySelector(".timer");
     if (gTimer) {
         var now = new Date();
-        var secs = Math.floor((now.getTime() - startTime.getTime())/1000);
+        var secs = Math.floor((now.getTime() - gStartTime.getTime())/1000);
         elt.innerHTML = (secs > 999 ? charInfinity : "" + secs);
     }
     else {
@@ -179,7 +178,7 @@ function timerAction() {
 }
 
 function startTimer() {
-    startTime = new Date();
+    gStartTime = new Date();
     gTimer = true;
     timerAction();
 }
