@@ -15,6 +15,7 @@ var gTimer = false;
 
 
 ////Creating a shuffled array of mines
+
 function createMinesArray() {
     function shuffle(arr){
         for(var j, x, i = arr.length; i; j = Math.floor(Math.random() * i), x = arr[--i], arr[i] = arr[j], arr[j] = x);
@@ -34,9 +35,8 @@ function createMinesArray() {
     }
     return shuffle(arr);
 }
-//////////////////////////////////////////////////////////
 
-
+//Creating a matrix of objects
 function createBoard() {
     gBoard = [];
     var minesArray = createMinesArray();
@@ -49,6 +49,7 @@ function createBoard() {
         }
     }
 }
+
 
 ///Drawing the board on the HTML
 
@@ -72,16 +73,18 @@ function drawBoard(){
                 button.style.background='white';
             }
 
+            //The game has finished. We are updating the board with the mines that were wrongfully and successfully
+            //selected.
             if (!gIsGameOn) {
-                if (gBoard[i][j].isMine===1 && !gBoard[i][j].isFlagged) {
+                if (gBoard[i][j].isMine && !gBoard[i][j].isFlagged) {
                     cell.style.background="url('img/mine.png')";
                     button.style.opacity='0';
                 }
-                else if (gBoard[i][j].isMine===0 && gBoard[i][j].isFlagged) {
+                else if (!gBoard[i][j].isMine && gBoard[i][j].isFlagged) {
                     cell.style.background="url('img/wrongmine.png')";
                     button.style.opacity='0';
                 }
-                else if (gBoard[i][j].isMine===1) {
+                else if (gBoard[i][j].isMine) {
                     cell.style.background="url('img/flag.png')";
                     button.style.opacity='0';
                 }
@@ -92,10 +95,9 @@ function drawBoard(){
 
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-//////Unify these two functions///////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+//This function goes through the board and updates each object with the number of its neighbours.
 function updateNeighbours() {
     for (var i=0; i<gRowSize; i++) {
         for (var j = 0; j < gColSize; j++) {
@@ -107,7 +109,7 @@ function updateNeighbours() {
                     if (ii === 0 && jj === 0) continue;
                     if (currI < 0 || currI > gColSize - 1) continue;
                     if (currJ < 0 || currJ > gRowSize - 1) continue;
-                    if (gBoard[currI][currJ].isMine === 1) {
+                    if (gBoard[currI][currJ].isMine) {
                         surrMines++;
                     }
                 }
@@ -117,6 +119,7 @@ function updateNeighbours() {
     }
 }
 
+//Updating the board with the relevant attributes of each object.
 function updateBoard() {
     var flagged=0;
     var clicked=0;
@@ -140,6 +143,7 @@ function updateBoard() {
     }
     console.log('Flagged: ' + flagged);
     console.log('Clicked: ' + clicked);
+
     if (((flagged+clicked) === gRowSize*gColSize) && gIsGameOn && flagged===gNumMines ){
         gIsGameOn = false;
         gTimer = false;
