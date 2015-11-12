@@ -15,7 +15,9 @@ body {
 
 
 
-
+.gameStatus {
+    color: red;
+}
 .newGame {
     background: #3498db ;
     border-radius: 8px;

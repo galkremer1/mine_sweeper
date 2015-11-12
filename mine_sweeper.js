@@ -148,7 +148,7 @@ function updateBoard() {
         gIsGameOn = false;
         gTimer = false;
         drawBoard();
-        alert('Congratulation! You have won the game!');
+        document.querySelector(".gameStatus").innerText = "Well Done!";
     }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -187,8 +187,8 @@ function startTimer() {
 function gameOver() {
     gIsGameOn = false;
     gTimer = false;
-    alert('Game over!');
     drawBoard();
+    document.querySelector(".gameStatus").innerText = "GAME OVER!"
 }
 
 function flagCell (i,j) {
@@ -245,11 +245,6 @@ function elementClicked(i,j) {
 }
 
 function newGame() {
-    gFlags=0;
-    document.querySelector(".flagsRaised").innerText=gFlags;
-
-    gTimer = false;
-    setElapsed();
     var lvlBtn=document.querySelector(".level");
     var level=lvlBtn.value;
     switch (level) {
@@ -277,10 +272,18 @@ function newGame() {
             lvlBtn.style.background='blue';
             break;
     }
+   gameInit();
+}
+
+function gameInit(){
+    gFlags=0;
+    document.querySelector(".flagsRaised").innerText=gFlags;
+    document.querySelector(".gameStatus").innerText = '';
+    gTimer = false;
     gIsGameOn = true;
+    setElapsed();
     createBoard();
     updateNeighbours();
     drawBoard()
 }
-
 
