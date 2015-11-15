@@ -269,6 +269,7 @@ function elementClicked(i,j) {
         }
         else { //right click
             flagCell(i,j);
+            console.log(event.button);
         }
 
         if (gIsGameOn) { /// Need to fix!
