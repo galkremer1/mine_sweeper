@@ -18,17 +18,17 @@ body {
     font-size: small;
 }
 
-.flagsRaisedHeader {
+.flags-raised-header {
     background: yellow;
 }
-.timerHeader {
+.timer-header {
     background: red;
 }
 .board {
     margin: auto;
 }
 
-.surrBoard {
+.surr-board {
     border-style: ridge;
     background: gray;
     margin: auto;
@@ -36,10 +36,10 @@ body {
 }
 
 
-.gameStatus {
+.game-status {
     color: red;
 }
-.newGame {
+.new-game {
     background: #3498db ;
     border-radius: 8px;
     font-family: Arial;
@@ -48,7 +48,7 @@ body {
     alignment: center;
 }
 
-.newGame:hover {
+.new-game:hover {
     background: #3cb0fd ;
     cursor: pointer;
 }
@@ -75,7 +75,7 @@ body {
 }
 
 
-.gameHeader {
+.game-header {
     background: lightblue;
      padding-left: 30%;
 }

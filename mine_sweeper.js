@@ -72,6 +72,7 @@ function drawBoard(){
             }
             else if (gBoard[i][j].isClicked) {
                 button.style.background='white';
+                button.disabled = true;
             }
 
             //The game has finished. We are updating the board with the mines that were wrongfully and successfully
@@ -155,7 +156,7 @@ function updateBoard() {
         gIsGameOn = false;
         gTimer = false;
         drawBoard();
-        document.querySelector(".gameStatus").innerText = "Well Done!";
+        document.querySelector(".game-status").innerText = "Well Done!";
     }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -195,11 +196,11 @@ function gameOver() {
     gIsGameOn = false;
     gTimer = false;
     drawBoard();
-    document.querySelector(".gameStatus").innerText = "GAME OVER!";
+    document.querySelector(".game-status").innerText = "GAME OVER!";
 }
 
 function flagCell (i,j) {
-    var flagScore = document.querySelector(".flagsRaised");
+    var flagScore = document.querySelector(".flags-raised");
     if (gBoard[i][j].symbole === ' ') {
         gBoard[i][j].symbole = '!';
         gBoard[i][j].isFlagged=true;
@@ -225,7 +226,7 @@ function handleLeftClick(i,j) {
         gBoard[i][j].symbole = gBoard[i][j].minesNeighbours;
         gBoard[i][j].isClicked = true;
         if (gBoard[i][j].isFlagged) {
-            var flagScore = document.querySelector(".flagsRaised")
+            var flagScore = document.querySelector(".flags-raised")
             gFlags--;
             flagScore.innerText=gNumMines-gFlags;
         }
@@ -295,8 +296,8 @@ function newGame() {
 
 function gameInit(){
     gFlags=0;
-    document.querySelector(".flagsRaised").innerText=gNumMines-gFlags;
-    document.querySelector(".gameStatus").innerText = '';
+    document.querySelector(".flags-raised").innerText=gNumMines-gFlags;
+    document.querySelector(".game-status").innerText = '';
     gTimer = false;
     gIsGameOn = true;
     setElapsed();
