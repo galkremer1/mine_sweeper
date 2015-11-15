@@ -7,7 +7,7 @@
 }
 
 table td, table th {
-    border: 2px solid black;
+    border: 1px solid darkgray;
     height: 25px;
     width: 25px;
 }
@@ -29,9 +29,10 @@ body {
 }
 
 .surrBoard {
-    border-style: solid;
+    border-style: ridge;
     background: gray;
     margin: auto;
+    box-shadow: 5px 5px 5px #999;
 }
 
 
