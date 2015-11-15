@@ -261,6 +261,8 @@ function handleLeftClick(i,j) {
         drawBoard();
     }
 }
+
+
 function handleMiddleClick(i,j) {
     var surrFlags = checkSurroundFlags(i,j, false);
     console.log(surrFlags);
@@ -282,7 +284,6 @@ function checkSurroundFlags(i,j, flip) {
             if (gBoard[currI][currJ].isFlagged) {
                 surrFlags++;
             }
-
             else if (flip) {
                 handleLeftClick(currI,currJ);
                 drawBoard();
@@ -306,7 +307,7 @@ function elementClicked(i,j) {
             flagCell(i,j);
         }
 
-        if (gIsGameOn) { /// Need to fix!
+        if (gIsGameOn) {
             updateBoard();
             updateBoard();
             updateBoard();
