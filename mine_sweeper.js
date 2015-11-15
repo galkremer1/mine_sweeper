@@ -78,19 +78,24 @@ function drawBoard(){
             //selected.
             if (!gIsGameOn) {
                 if (gBoard[i][j].isMine && !gBoard[i][j].isFlagged) {
-                    cell.style.background="url('img/mine.png')";
-                    button.style.opacity='0';
+                    cell.style.background = "url('img/mine.png')";
+                    button.style.opacity = '0';
                 }
                 else if (!gBoard[i][j].isMine && gBoard[i][j].isFlagged) {
-                    cell.style.background="url('img/wrongmine.png')";
-                    button.style.opacity='0';
+                    cell.style.background = "url('img/wrongmine.png')";
+                    button.style.opacity = '0';
                 }
                 else if (gBoard[i][j].isMine) {
-                    cell.style.background="url('img/flag.png')";
-                    button.style.opacity='0';
+                    cell.style.background = "url('img/flag.png')";
+                    button.style.opacity = '0';
                 }
                 else {
-                    button.disabled=true; //Dissabling all the other buttons once the game is finished
+                    button.disabled = true; //Disabling all the other buttons once the game is finished
+                }
+
+                if (gBoard[i][j].isMine && gBoard[i][j].isClicked) { //Marking the bomb that was clicked and triggered the game over
+                    cell.style.background="url('img/explodedMine.png')";
+                    button.style.opacity='0';
                 }
             }
         }
@@ -154,7 +159,7 @@ function updateBoard() {
         document.querySelector(".gameStatus").innerText = "Well Done!";
     }
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -214,6 +219,7 @@ function flagCell (i,j) {
 
 function handleLeftClick(i,j) {
     if (gBoard[i][j].isMine) {
+        gBoard[i][j].isClicked = true;
         gameOver();
     }
     else {
