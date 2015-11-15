@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <link rel="stylesheet" href="mine_sweeper.css"/>
     <meta charset="UTF-8">
@@ -7,21 +7,18 @@
 </head>
 <body>
 <div class="minesweeper">
+    <div class="t-header">
+        <span class="timer">0</span>
+        <img src="img/smileyhappy.jpg" id="smiley">
+        <span class="flags-raised">0</span>
+    </div><BR><BR>
     <div class="game-header">
         <h2>
-            <span>MiNeS SwEePeR</span>
-            <BR>
-            <span class="timer-header">Your time:</span>
-            <span class="timer">0</span>
-            <BR>
-            <span class="flags-raised-header">Flags Left:</span>
-            <span class="flags-raised">0</span>
-            <BR>
             <span class="game-status"></span>
         </h2>
     <div>
         <select class="level">
-            <option selected="Beginner" disabled class="hideoption">Select a Level</option>
+            <option selected="Beginner" disabled>Select a Level</option>
             <option value="Easy">Easy</option>
             <option value="Beginner">Beginner</option>
             <option value="Intermediate">Intermediate</option>
@@ -31,14 +28,14 @@
     </div>
         </div>
 
-
+    <BR>
     <TABLE class="surr-board">
         <TD>
           <table class="board"></table>
         </TD>
     </TABLE>
 
-
+    <BR>
     <div class="footer">Made by Gal Kremer</div>
     <script src="mine_sweeper.js"></script>
 

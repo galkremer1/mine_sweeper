@@ -157,10 +157,24 @@ function updateBoard() {
         gTimer = false;
         drawBoard();
         document.querySelector(".game-status").innerText = "Well Done!";
+        changeSmiley('win');
     }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
+function changeSmiley(state) {
+    switch (state) {
+        case 'lose':
+            document.getElementById("smiley").src = "img/smileysad.jpg";
+            break;
+        case 'happy':
+            document.getElementById("smiley").src = "img/smileyhappy.jpg";
+            break;
+        case 'win':
+            document.getElementById("smiley").src = "img/smileycool.jpg";
+            break;
+    }
+}
 
 
 
@@ -168,13 +182,23 @@ function updateBoard() {
 function setElapsed() {
     // update elapsed time display
     var elt = document.querySelector(".timer");
+    var char='';
     if (gTimer) {
         var now = new Date();
         var secs = Math.floor((now.getTime() - gStartTime.getTime())/1000);
-        elt.innerHTML = (secs > 999 ? charInfinity : "" + secs);
+        if (secs<10) {
+            char = '00';
+        }
+        else if (secs<100) {
+            char = '0';
+        }
+        else {
+            char='';
+        }
+        elt.innerHTML = (secs > 999 ? charInfinity : char + secs);
     }
     else {
-        elt.innerHTML = "&nbsp;";
+        elt.innerHTML = "000";
     }
 }
 
@@ -196,6 +220,7 @@ function gameOver() {
     gIsGameOn = false;
     gTimer = false;
     drawBoard();
+    changeSmiley('lose');
     document.querySelector(".game-status").innerText = "GAME OVER!";
 }
 
@@ -296,6 +321,7 @@ function newGame() {
 
 function gameInit(){
     gFlags=0;
+    changeSmiley('happy');
     document.querySelector(".flags-raised").innerText=gNumMines-gFlags;
     document.querySelector(".game-status").innerText = '';
     gTimer = false;

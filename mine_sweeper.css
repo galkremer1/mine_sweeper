@@ -1,8 +1,44 @@
+.t-header {
+    position: absolute;
+    top: 20px;
+    width: inherit;
+    height: 29px;
+    border: inset 3px #eee;
+    background-color: #c0c0c0;
+}
+
+#smiley {
+    padding-left: 50%;
+    object-fit: cover;
+    width: 28px;
+    height: 30px;
+}
+
+
+.flags-raised {
+    position: absolute;
+    right: 0%;
+    color: white;
+    background: black;
+    position: absolute;
+    padding-top: 6px;
+    font-size: large;
+}
+
+.timer {
+    color: white;
+    background: black;
+    position: absolute;
+    padding-top: 6px;
+    font-size: large;
+}
+
 .minesweeper {
 
-    background: green;
+    background: #c0c0c0;
     border-style: solid;
     width: 35%;
+    padding: 20px;
     margin: auto;
 }
 
@@ -18,11 +54,11 @@ body {
     font-size: small;
 }
 
-.flags-raised-header {
-    background: yellow;
-}
+
+
 .timer-header {
     background: red;
+    right: 10%;
 }
 .board {
     margin: auto;
@@ -76,8 +112,8 @@ body {
 
 
 .game-header {
-    background: lightblue;
-     padding-left: 30%;
+    background: darkgray;
+    padding-left: 30%;
 }
 
 .footer {
