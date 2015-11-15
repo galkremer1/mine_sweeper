@@ -72,7 +72,7 @@ function drawBoard(){
             }
             else if (gBoard[i][j].isClicked) {
                 button.style.background='white';
-                button.disabled = true;
+             //   button.disabled = true;
             }
 
             //The game has finished. We are updating the board with the mines that were wrongfully and successfully
@@ -127,6 +127,7 @@ function updateNeighbours() {
         }
     }
 }
+
 
 //Updating the board with the relevant attributes of each object.
 function updateBoard() {
@@ -260,6 +261,37 @@ function handleLeftClick(i,j) {
         drawBoard();
     }
 }
+function handleMiddleClick(i,j) {
+    var surrFlags = checkSurroundFlags(i,j, false);
+    console.log(surrFlags);
+    if (surrFlags === gBoard[i][j].minesNeighbours && surrFlags>0 && !gBoard[i][j].isFlagged) {
+        checkSurroundFlags(i,j,true);
+    }
+}
+
+
+function checkSurroundFlags(i,j, flip) {
+    var surrFlags=0;
+    for (var ii = -1; ii <= 1; ii++) {
+        for (var jj = -1; jj <= 1; jj++) {
+            var currI = i + ii;
+            var currJ = j + jj;
+            if (ii === 0 && jj === 0) continue;
+            if (currI < 0 || currI > gColSize - 1) continue;
+            if (currJ < 0 || currJ > gRowSize - 1) continue;
+            if (gBoard[currI][currJ].isFlagged) {
+                surrFlags++;
+            }
+
+            else if (flip) {
+                handleLeftClick(currI,currJ);
+                drawBoard();
+            }
+        }
+    }
+    return surrFlags;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function elementClicked(i,j) {
     if (gIsGameOn) {
@@ -267,9 +299,11 @@ function elementClicked(i,j) {
         if (event.button === 0) { //Left click
             handleLeftClick(i,j);
         }
+        else if (event.button === 1 ) { //middle click
+            handleMiddleClick(i,j);
+        }
         else { //right click
             flagCell(i,j);
-            console.log(event.button);
         }
 
         if (gIsGameOn) { /// Need to fix!
