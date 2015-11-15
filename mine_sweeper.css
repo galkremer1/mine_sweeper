@@ -12,6 +12,7 @@ table td, table th {
     width: 25px;
 }
 
+
 body {
     background: gray;
     font-size: small;
@@ -26,6 +27,12 @@ body {
 .board {
     padding-top: 5%;
     padding-bottom: 5%;
+    margin: auto;
+}
+
+.surrBoard {
+    border-style: solid;
+    background: gray;
     margin: auto;
 }
 

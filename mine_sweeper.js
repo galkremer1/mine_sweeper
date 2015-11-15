@@ -5,9 +5,9 @@
 //Global variables for the game
 var gFlags = 0;
 var gBoard = [];
-var gRowSize =0;
-var gColSize =0;
-var gNumMines=0;
+var gRowSize =9;
+var gColSize =9;
+var gNumMines=10;
 var gIsGameOn = true;
 var gTimer = false;
 var gStartTime=0;
@@ -274,7 +274,7 @@ function newGame() {
             gColSize = 9;
             gNumMines = 10;
             lvlBtn.style.background='gray';
-            board.style.width="50%";
+            board.style.width="35%";
             break;
         case "Intermediate":
             gRowSize = 16;
@@ -305,4 +305,6 @@ function gameInit(){
     updateNeighbours();
     drawBoard()
 }
+
+gameInit();
 

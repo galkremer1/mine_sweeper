@@ -11,5 +11,6 @@ To do:
 2. Move the score into the header.
 3. Create a score table.
 4. Solve compatibility problems with Safari and FireFox.
-5. Add a red mark to the bomb that was clicked.
+5. Add a red mark to the bomb that was clicked. Done.
+
 
