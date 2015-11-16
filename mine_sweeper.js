@@ -341,14 +341,14 @@ function newGame() {
             gRowSize = 16;
             gColSize = 16;
             gNumMines = 40;
-            board.style.width="45%";
+            board.style.width="54%";
             break;
         case "Expert":
             gRowSize = 20;
             gColSize = 20;
             gNumMines = 99;
             lvlBtn.style.background='blue';
-            board.style.width="55%";
+            board.style.width="66%";
 
             break;
     }
