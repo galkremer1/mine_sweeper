@@ -72,7 +72,7 @@ function drawBoard(){
             }
             else if (gBoard[i][j].isClicked) {
                 button.style.background='white';
-             //   button.disabled = true;
+                button.disabled = true;
             }
 
             //The game has finished. We are updating the board with the mines that were wrongfully and successfully
@@ -128,7 +128,6 @@ function updateNeighbours() {
     }
 }
 
-
 //Updating the board with the relevant attributes of each object.
 function updateBoard() {
     var flagged=0;
@@ -158,24 +157,10 @@ function updateBoard() {
         gTimer = false;
         drawBoard();
         document.querySelector(".game-status").innerText = "Well Done!";
-        changeSmiley('win');
     }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-function changeSmiley(state) {
-    switch (state) {
-        case 'lose':
-            document.getElementById("smiley").src = "img/smileysad.jpg";
-            break;
-        case 'happy':
-            document.getElementById("smiley").src = "img/smileyhappy.jpg";
-            break;
-        case 'win':
-            document.getElementById("smiley").src = "img/smileycool.jpg";
-            break;
-    }
-}
 
 
 
@@ -183,23 +168,13 @@ function changeSmiley(state) {
 function setElapsed() {
     // update elapsed time display
     var elt = document.querySelector(".timer");
-    var char='';
     if (gTimer) {
         var now = new Date();
         var secs = Math.floor((now.getTime() - gStartTime.getTime())/1000);
-        if (secs<10) {
-            char = '00';
-        }
-        else if (secs<100) {
-            char = '0';
-        }
-        else {
-            char='';
-        }
-        elt.innerHTML = (secs > 999 ? charInfinity : char + secs);
+        elt.innerHTML = (secs > 999 ? charInfinity : "" + secs);
     }
     else {
-        elt.innerHTML = "000";
+        elt.innerHTML = "&nbsp;";
     }
 }
 
@@ -221,7 +196,6 @@ function gameOver() {
     gIsGameOn = false;
     gTimer = false;
     drawBoard();
-    changeSmiley('lose');
     document.querySelector(".game-status").innerText = "GAME OVER!";
 }
 
@@ -261,38 +235,6 @@ function handleLeftClick(i,j) {
         drawBoard();
     }
 }
-
-
-function handleMiddleClick(i,j) {
-    var surrFlags = checkSurroundFlags(i,j, false);
-    console.log(surrFlags);
-    if (surrFlags === gBoard[i][j].minesNeighbours && surrFlags>0 && !gBoard[i][j].isFlagged) {
-        checkSurroundFlags(i,j,true);
-    }
-}
-
-
-function checkSurroundFlags(i,j, flip) {
-    var surrFlags=0;
-    for (var ii = -1; ii <= 1; ii++) {
-        for (var jj = -1; jj <= 1; jj++) {
-            var currI = i + ii;
-            var currJ = j + jj;
-            if (ii === 0 && jj === 0) continue;
-            if (currI < 0 || currI > gColSize - 1) continue;
-            if (currJ < 0 || currJ > gRowSize - 1) continue;
-            if (gBoard[currI][currJ].isFlagged) {
-                surrFlags++;
-            }
-            else if (flip) {
-                handleLeftClick(currI,currJ);
-                drawBoard();
-            }
-        }
-    }
-    return surrFlags;
-}
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function elementClicked(i,j) {
     if (gIsGameOn) {
@@ -300,14 +242,11 @@ function elementClicked(i,j) {
         if (event.button === 0) { //Left click
             handleLeftClick(i,j);
         }
-        else if (event.button === 1 ) { //middle click
-            handleMiddleClick(i,j);
-        }
         else { //right click
             flagCell(i,j);
         }
 
-        if (gIsGameOn) {
+        if (gIsGameOn) { /// Need to fix!
             updateBoard();
             updateBoard();
             updateBoard();
@@ -341,14 +280,14 @@ function newGame() {
             gRowSize = 16;
             gColSize = 16;
             gNumMines = 40;
-            board.style.width="45%";
+            board.style.width="60%";
             break;
         case "Expert":
             gRowSize = 20;
             gColSize = 20;
             gNumMines = 99;
             lvlBtn.style.background='blue';
-            board.style.width="55%";
+            board.style.width="75%";
 
             break;
     }
@@ -357,8 +296,7 @@ function newGame() {
 
 function gameInit(){
     gFlags=0;
-    changeSmiley('happy');
-    document.querySelector(".flags-raised").innerText=gNumMines;
+    document.querySelector(".flags-raised").innerText=gNumMines-gFlags;
     document.querySelector(".game-status").innerText = '';
     gTimer = false;
     gIsGameOn = true;

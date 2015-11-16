@@ -1,0 +1,86 @@
+.minesweeper {
+
+    background: green;
+    border-style: solid;
+    width: 35%;
+    margin: auto;
+}
+
+table td, table th {
+    border: 1px solid darkgray;
+    height: 25px;
+    width: 25px;
+}
+
+
+body {
+    background: gray;
+    font-size: small;
+}
+
+.flags-raised-header {
+    background: yellow;
+}
+.timer-header {
+    background: red;
+}
+.board {
+    margin: auto;
+}
+
+.surr-board {
+    border-style: ridge;
+    background: gray;
+    margin: auto;
+    box-shadow: 5px 5px 5px #999;
+}
+
+
+.game-status {
+    color: red;
+}
+.new-game {
+    background: #3498db ;
+    border-radius: 8px;
+    font-family: Arial;
+    color: #ffffff ;
+    font-size: 15px;
+    alignment: center;
+}
+
+.new-game:hover {
+    background: #3cb0fd ;
+    cursor: pointer;
+}
+
+.level {
+    background: green ;
+    border-radius: 8px;
+    font-family: Arial;
+    color: #ffffff ;
+    font-size: 15px;
+    height:25px;
+}
+
+.btn {
+    width: 25px;
+    height: 25px;
+    visibility: visible;
+    text-align: center;
+    margin: 1px 1px 1px 1px;
+    alignment: center;
+    opacity: 1;
+    background-size: 15px 15px;
+    background: url(img/hidden.png) no-repeat;
+}
+
+
+.game-header {
+    background: lightblue;
+     padding-left: 30%;
+}
+
+.footer {
+    background: red;
+    padding-left: 35%;
+}
